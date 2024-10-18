@@ -2,7 +2,6 @@ from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, UniqueCons
 from datetime import datetime
 from app.core.database import Base
 
-# User
 
 class User(Base):
     __tablename__ = 'user'
@@ -37,7 +36,6 @@ class Role(Base):
     create_at = Column(DateTime, nullable=False, default=datetime.now)
     is_deleted = Column(Boolean, default=False)
 
-# Permissions
 
 class Permission(Base):
     __tablename__ = 'permission'
@@ -54,7 +52,6 @@ class Permission(Base):
     create_at = Column(DateTime, nullable=False, default=datetime.now)
     is_deleted = Column(Boolean, default=False)
 
-# User Roles
 class UserRole(Base):
     __tablename__ = 'user_role'
     __table_args__ = (
@@ -70,7 +67,6 @@ class UserRole(Base):
     update_at = Column(DateTime, nullable=True, default=datetime.now)
     is_deleted = Column(Boolean, default=False)
 
-# Permissions Role
 
 class PermissionRole(Base):
     __tablename__ = 'permissions_role'

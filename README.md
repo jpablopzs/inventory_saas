@@ -52,7 +52,7 @@ ENVIRONMENT=development
 ## Docker
 ### Dockerfile
 
-El Dockerfile está configurado para crear un contenedor que ejecute la aplicación FastAPI. Usa la imagen base python:3.12-slim y configura el entorno de desarrollo.
+El Dockerfile está configurado para crear un contenedor que ejecute la aplicación inventory_saas. Usa la imagen base python:3.12-slim y configura el entorno de desarrollo.
 
 ### docker-compose.yml
 

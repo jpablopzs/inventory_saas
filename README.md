@@ -56,7 +56,7 @@ El Dockerfile está configurado para crear un contenedor que ejecute la aplicaci
 
 ### docker-compose.yml
 
-El archivo docker-compose.yml configura los servicios necesarios para la aplicación. Incluye la base de datos PostgreSQL y el contenedor de FastAPI.
+El archivo docker-compose.yml configura los servicios necesarios para la aplicación. Incluye  2 servicios, una para la base de datos PostgreSQL y otro para el contenedor de la aplicación.
 
 ## Instalación
 1. Clona el repositorio:

@@ -5,7 +5,7 @@ from app.core.database import initiate_database, close_database
 from app.auth.routes import user_routes, login_routes
 from app.inventory.routes import (company_routes, 
                                   category_routes,
-                                  product_routes) 
+                                  product_routes,supplier_routes) 
 
 env = os.getenv("ENV", "development")
 
@@ -29,3 +29,4 @@ app.include_router(login_routes.router, prefix="/api/login", tags=["Login"])
 app.include_router(company_routes.router, prefix="/api/companies", tags=["Companies"])
 app.include_router(category_routes.router, prefix="/api/category", tags=["Categories"])
 app.include_router(product_routes.router, prefix="/api/product", tags=["Products"])
+app.include_router(supplier_routes.router, prefix="/api/supplier", tags=["Suppliers"])

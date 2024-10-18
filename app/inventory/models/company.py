@@ -26,7 +26,7 @@ class CompanyUser(Base):
         UniqueConstraint('company_id', 'user_id', name='uq_company_user'),
     )
     
-    id = Column(Integer, primary_key=True)  # Añadido el campo 'id' como clave primaria
+    id = Column(Integer, primary_key=True)
     company_id = Column(Integer, ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)
     user_id = Column(Integer, ForeignKey("auth.user.id", name='fk_user_id'), nullable=False, index=True)
     create_at = Column(DateTime, nullable=False, default=datetime.now)

@@ -4,8 +4,11 @@ from sqlalchemy import pool
 from alembic import context
 from logging.config import fileConfig
 from sqlalchemy.ext.asyncio import create_async_engine
+from app.auth.models.auth import Base
+from app.inventory.models.company import Base
 from app.inventory.models.inventory import Base
-
+from app.inventory.models.purchase_order import Base
+from app.inventory.models.sales_order import Base
 
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'app')))
 

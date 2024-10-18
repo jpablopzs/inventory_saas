@@ -18,8 +18,7 @@ services:
 
   inventory_service:
     image: inventory-service
-    build:
-      dockerfile: Dockerfile
+    build: .
     command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
     container_name: app_inventory_service
     ports:

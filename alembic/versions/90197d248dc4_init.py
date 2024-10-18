@@ -20,8 +20,6 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.execute("CREATE SCHEMA IF NOT EXISTS auth")
-    op.execute("CREATE SCHEMA IF NOT EXISTS inventory")
 
 def downgrade() -> None:
     op.execute("DROP SCHEMA IF EXISTS auth CASCADE")
-    op.execute("DROP SCHEMA IF EXISTS inventory CASCADE")

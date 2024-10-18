@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.core.database import initiate_database, close_database
 from app.inventory.routes import company_routes
+from app.auth.routes import user_routes, login_routes
+
 env = os.getenv("ENV", "development")
 
 @asynccontextmanager
@@ -21,3 +23,5 @@ origins = [
 ]
 
 app.include_router(company_routes.router, prefix="/api", tags=["Companies"])
+app.include_router(user_routes.router, prefix="/api/users", tags=["Users"])
+app.include_router(login_routes.router, prefix="/api/login", tags=["Login"])

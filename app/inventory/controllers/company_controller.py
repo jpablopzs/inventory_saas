@@ -5,7 +5,8 @@ from app.inventory.models.company import Company
 from app.inventory.schemas.company_schema import CompanyCreate, CompanyUpdate
 
 async def get_company(db: AsyncSession, company_id: int):
-    return await db.get(Company, company_id)
+    result = await db.execute(select(Company).filter(Company.id == company_id))
+    return result.scalars().first()
 
 async def get_companies(db: AsyncSession, skip: int = 0, limit: int = 10):
     result = await db.execute(select(Company).offset(skip).limit(limit))
@@ -28,10 +29,12 @@ async def update_company(db: AsyncSession, company_id: int, company: CompanyUpda
         await db.refresh(db_company)
     return db_company
 
-async def delete_company(db: AsyncSession, company_id: int):
+async def delete_company(db: AsyncSession, company_id: int) -> bool:
     db_company = await get_company(db, company_id)
     if db_company:
         db_company.is_deleted = True
         db.add(db_company)
         await db.commit()
-    return db_company
+        return True
+    return False
+

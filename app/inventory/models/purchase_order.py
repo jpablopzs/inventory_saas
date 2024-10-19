@@ -15,7 +15,7 @@ class Supplier(Base):
     tax_id = Column(String(20), nullable=False)
     phone = Column(String(30), nullable=False)
     email = Column(String(100), index=True, nullable=False)
-    txt_address = Column(String(300), nullable=True)
+    tax_address = Column(String(300), nullable=True)
     create_at = Column(DateTime, nullable=False, default=datetime.now)
     update_at = Column(DateTime, nullable=True, default=datetime.now)
     is_deleted = Column(Boolean, default=False)

@@ -3,7 +3,7 @@ from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 from app.auth.models.auth import User
-from app.auth.controllers.jwt import create_access_token#, get_user_permissions
+from app.auth.controllers.jwt import create_access_token
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

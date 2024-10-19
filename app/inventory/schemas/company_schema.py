@@ -7,7 +7,7 @@ class CompanyBase(BaseModel):
     tax_id: str
     phone: str
     email: EmailStr
-    txt_address: str
+    tax_address: str
 
 class CompanyCreate(CompanyBase):
     pass
@@ -17,7 +17,7 @@ class CompanyUpdate(CompanyBase):
     tax_id: Optional[str] = ''
     phone: Optional[str] = ''
     email: Optional[EmailStr] = ''
-    txt_address: Optional[str] = ''
+    tax_address: Optional[str] = ''
 
 class CompanyResponse(CompanyBase):
     id: int

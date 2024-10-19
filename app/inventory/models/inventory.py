@@ -18,19 +18,6 @@ class Category(Base):
     update_at = Column(DateTime, nullable=True, default=datetime.now)
     is_deleted = Column(Boolean, default=False)
 
-class Brand(Base):
-    __tablename__ = 'brand'
-    __table_args__ = (
-        UniqueConstraint('name', 'company_id', name='uq_brand_name'),
-    )
-    
-    id = Column(Integer, primary_key=True)
-    company_id = Column(Integer, ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)
-    name = Column(String(300), nullable=False)
-    create_at = Column(DateTime, nullable=False, default=datetime.now)
-    update_at = Column(DateTime, nullable=True, default=datetime.now)
-    is_deleted = Column(Boolean, default=False)
-
 class Product(Base):
     __tablename__ = 'product'
     __table_args__ = (

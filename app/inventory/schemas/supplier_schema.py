@@ -6,7 +6,7 @@ class SupplierCreate(BaseModel):
     name: str
     email: str
     phone: str
-    txt_address: str
+    tax_address: str
     tax_id: str
     company_id: int
 
@@ -16,7 +16,7 @@ class SupplierUpdate(BaseModel):
     email: Optional[str] = None
     phone: Optional[str] = None
     tax_id: Optional[str] = None
-    txt_address: Optional[str] = None
+    tax_address: Optional[str] = None
 
 class SupplierResponse(SupplierCreate):
     id: int

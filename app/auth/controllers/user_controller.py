@@ -3,7 +3,6 @@ import bcrypt
 from typing import List
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-from fastapi import HTTPException, status
 from sqlalchemy.future import select
 from app.auth.models.auth import User
 from sqlalchemy.ext.asyncio import AsyncSession

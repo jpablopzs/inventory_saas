@@ -27,7 +27,6 @@ def upgrade() -> None:
     sa.Column('tax_id', sa.String(length=20), nullable=False),
     sa.Column('phone', sa.String(length=30), nullable=False),
     sa.Column('email', sa.String(length=100), nullable=False),
-    sa.Column('txt_address', sa.String(length=300), nullable=True),
     sa.Column('create_at', sa.DateTime(), nullable=False),
     sa.Column('update_at', sa.DateTime(), nullable=True),
     sa.Column('is_deleted', sa.Boolean(), nullable=True),

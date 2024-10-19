@@ -38,7 +38,7 @@ class PurchaseOrder(Base):
     is_deleted = Column(Boolean, default=False)
 
 class PurchaseOrderDetail(Base):
-    __tablename__ = 'purchase_detail'
+    __tablename__ = 'purchase_order_detail'
   
     id = Column((Integer), primary_key=True)
     company_id = Column((Integer), ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)

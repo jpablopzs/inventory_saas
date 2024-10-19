@@ -6,6 +6,10 @@ until nc -z -v -w30 db 5432; do
 done
 
 echo "Base de datos lista. Ejecutando migraciones..."
+# crear las migraciones:
+# alembic revision --autogenerate -m "revision"
+
+#ejecutar y actualizar las migraciones en bd:
 alembic upgrade head
 
 echo "Iniciando el servidor..."

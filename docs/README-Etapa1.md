@@ -65,7 +65,7 @@ Para esta demo se contemplaron las siguientes entidades:
 
 Para conocer más detalles del diagrama ER puedes:
 
-### [Descargar Diagrama ER en formato .jpg ](inventory_saas-drawio.jpg) 
+### [Descargar Diagrama ER en formato .jpg ](docs/inventory_saas-drawio.jpg) 
 
 ### [Abrir Diagrama ER en draw.io](https://drive.google.com/file/d/1jSxp8p7y6OfkytfZGJGoFGCq1-H3XUBi/view?usp=sharing)
 
@@ -90,7 +90,7 @@ Para esta demo se decide construir el esquema de base de datos usando las siguie
 
 Para conocer el contenido de la estructura SQL de las tablas propuestas, revisar el siguiente enlace:
 
-### [Ver estructura SQL del modelo propuesto](sql-inventory_saas.sql)
+### [Ver estructura SQL del modelo propuesto](docs/sql-inventory_saas.sql)
 
 ### Explicación de cómo asegurarte de que los datos de las diferentes empresas no se mezclen.
 

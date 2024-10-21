@@ -106,8 +106,8 @@ La API usa autenticación basada en JWT. Asegúrate de que el JWT_SECRET en el a
 ## Documentación de partes de la prueba:
 Para conocer los detalles  de las partes de la prueba técnica seguir los siguientes enlaces:
 
-## [Prueba técnica Etapa 1](README-Etapa1.md)
-## [Prueba técnica Etapa 2]()
-## [Prueba técnica Etapa 3](README-Etapa3.md)
-## [Prueba técnica Etapa 4](README-Etapa4.md)
-## [Prueba técnica Etapa 5](README-Etapa5.md)
+## [Prueba Etapa 1: Diseño de Base de Datos](README-Etapa1.md)
+## [Prueba Etapa 2: Creación del Backend]()
+## [Prueba Etapa 3: Evaluación de Código](README-Etapa3.md)
+## [Prueba Etapa 4: Dockerización de un Servicio REST](README-Etapa4.md)
+## [Prueba Etapa 5: Despliegue en la Nube](README-Etapa5.md)

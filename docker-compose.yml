@@ -19,7 +19,7 @@ services:
   inventory_service:
     image: inventory-service
     build: .
-    command: sh -c "sh start.sh" #"alembic upgrade head && uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
+    command: sh -c "sh start.sh"
     container_name: app_inventory_service
     ports:
       - "8000:8000"

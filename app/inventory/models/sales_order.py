@@ -42,7 +42,7 @@ class SalesOrderDetail(Base):
  
     id = Column((Integer), primary_key=True)
     company_id = Column((Integer), ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)
-    purchase_order_id = Column((Integer), ForeignKey("sales_order.id", name='fk_sales_order_id'), nullable=False, index=True)
+    sales_order_id = Column((Integer), ForeignKey("sales_order.id", name='fk_sales_order_id'), nullable=False, index=True)
     product_id = Column((Integer), ForeignKey("product.id", name='fk_product_id'), nullable=False, index=True)
     product_quantity = Column((Integer), nullable=False)
     unit_price = Column(Numeric, nullable=False)

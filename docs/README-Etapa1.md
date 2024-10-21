@@ -65,8 +65,8 @@ Para esta demo se contemplaron las siguientes entidades:
 
 Para conocer más detalles del diagrama ER puedes:
 
-### [Descargar Diagrama ER en formato .jpg ](./docs/inventory_saas-drawio.jpg) 
-
+### [Descargar Diagrama ER en formato .jpg](./docs/inventory_saas-drawio.jpg) 
+### [Descargar Diagrama ER en formato .jpg](/docs/inventory_saas-drawio.jpg)
 ### [Abrir Diagrama ER en draw.io](https://drive.google.com/file/d/1jSxp8p7y6OfkytfZGJGoFGCq1-H3XUBi/view?usp=sharing)
 
 

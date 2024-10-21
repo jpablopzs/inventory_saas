@@ -1,0 +1,1505 @@
+{
+	"info": {
+		"_postman_id": "def236e4-4cbe-4d93-92ef-55b9d2cd9bc4",
+		"name": "Api REST Inventory SaaS",
+		"description": "Se incluye la documentación general para el usuo de la API y ejecución correcta de cada enpoint.\n\nPara usar esta API en el entorno de staging, debe reemplazar la url de cada enpoint con el siguiente enlace del ambiente desplegado en AWS:\n\n[http://13.59.196.202/](http://13.59.196.202/)\n\nAntes de iniciar la ejecución de llamadas a la api , es necesario que registre un usuario con estatus true en el enpoint CRUD user.\n\nLuego deberá iniciar sesión con el usuario creado en el endpoint : Authentication Login.\n\nLa authenticación, le devolverá un JSON web token que deberá usar en todas las cabeceras de los enpoint para vatidar que el usuario está verificado y autenticado para poder ejecutar transacciones.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37602845"
+	},
+	"item": [
+		{
+			"name": "Authentication Login",
+			"item": [
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"jpablopzs@gmail.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login",
+								""
+							]
+						},
+						"description": "# **Login de Usuario**\n\nEste endpoint permite a un usuario autenticarse en la aplicación mediante credenciales de correo electrónico y contraseña. La respuesta incluye un **token de acceso (JWT)** que será utilizado para autenticar las solicitudes a otros endpoints protegidos.\n\n### **URL**\n\n`POST /api/login/`\n\n### **Encabezados (Headers)**\n\n| Encabezado | Valor |\n| --- | --- |\n| Content-Type | `application/json` |\n\n### **Cuerpo de la Solicitud (Request Body)**\n\nLa solicitud debe incluir un cuerpo en formato JSON con los siguientes campos:\n\n| Campo | Tipo | Descripción | Obligatorio |\n| --- | --- | --- | --- |\n| email | string | El correo electrónico del usuario | Sí |\n| password | string | La contraseña del usuario | Sí |\n\nEjemplo de Cuerpo de Solicitud\n\n``` json\n{\n  \"email\": \"jpablopzs@demo.com\",\n  \"password\": \"12345678\"\n}\n\n ```\n\n### **Respuesta Exitosa (200 OK)**\n\nSi las credenciales son correctas, el servidor devolverá un **JSON** con el siguiente formato:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n\nSi las credenciales son correctas, el servidor devolverá un **JSON** con el siguiente formato:\n\n| Campo | Tipo | Descripción |\n| --- | --- | --- |\n| status | string | El estado de la respuesta (200 indica éxito) |\n| data | object | Datos del usuario autenticado |\n| data.email | string | El correo electrónico del usuario autenticado |\n| data.user_id | int | El ID del usuario autenticado |\n| data.access_token | string | El token de acceso JWT, necesario para futuras solicitudes |\n| message | string | Mensaje de confirmación de autenticación |\n\n``` json\n{\n  \"status\": \"200\",\n  \"data\": {\n    \"email\": \"jpablopzs@demo.com\",\n    \"user_id\": 6,\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NTEzNjY1fQ.JhOa6ajsNqekuDwKA0PF3Jo4LVkf0xGT6NKqoY7divo\"\n  },\n  \"message\": \"Login successful\"\n}\n\n ```\n\n### **Errores Comunes**\n\n- **401 Unauthorized**: Credenciales incorrectas.\n    \n- **400 Bad Request**: Cuerpo de la solicitud mal formado o incompleto.\n    \n\nEste token JWT debe ser incluido en las futuras solicitudes a endpoints protegidos, utilizando el encabezado `Authorization: Bearer` ."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD user",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"username\": \"jpablo\",\n  \"phone\": \"999999999\",\n  \"email\": \"jpablopzs@gmail.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "### Endpoint: Crear Usuario\n\n#### 1\\. **Descripción**\n\nEste endpoint permite crear un nuevo usuario en el sistema. Se requiere enviar información básica del usuario, incluyendo nombre, nombre de usuario, teléfono, correo electrónico y contraseña.\n\n#### 2\\. **Método HTTP**\n\n- `POST`\n    \n\n3\\. **URL**\n\n[https://localhost:8000/api/users/](https://localhost:8000/api/users/)\n\n#### 4\\. **Encabezados (Headers)**\n\n| Nombre | Valor |\n| --- | --- |\n| Content-Type | application/json |\n\n#### 5\\. **Cuerpo de la Solicitud (Request Body)**\n\nEl cuerpo de la solicitud debe estar en formato JSON y debe incluir los siguientes campos:\n\n``` json\n{\n  \"name\": \"Juan Perez\",\n  \"username\": \"jpablo\",\n  \"phone\": \"999999999\",\n  \"email\": \"jpablopzs@demo.com\",\n  \"password\": \"12345678\"\n}\n\n ```\n\n##### **Campos:**\n\n- **name** (string, requerido): Nombre completo del usuario.\n    \n- **username** (string, requerido): Nombre de usuario único para la identificación.\n    \n- **phone** (string, requerido): Número de teléfono del usuario.\n    \n- **email** (string, requerido): Dirección de correo electrónico del usuario.\n    \n- **password** (string, requerido): Contraseña del usuario (debe cumplir con las políticas de seguridad).\n    \n\n#### 6\\. **Respuesta (Response)**\n\nLa respuesta del servidor es un objeto JSON que contiene los detalles del usuario creado.\n\n##### **Código de Estado:**\n\n- `201 Created` (si el usuario se crea correctamente)\n    \n- `400 Bad Request` (si hay errores de validación en los datos)\n    \n\n##### **Ejemplo de Respuesta Exitoso:**\n\n``` json\n{\n  \"id\": 1,\n  \"name\": \"Juan Perez\",\n  \"username\": \"jpablo\",\n  \"phone\": \"999999999\",\n  \"email\": \"jpablopzs@gmail.com\",\n  \"created_at\": \"2024-10-20T12:00:00Z\",\n  \"updated_at\": \"2024-10-20T12:00:00Z\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "User update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjY2NTM3fQ.pa4hoaD07e7z7ehbuFJoQvfqjGJC8jfZlEChQmbUmdQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"string\",\n  \"username\": \"string\",\n  \"phone\": \"string\",\n  \"email\": \"user@example.com\",\n  \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						},
+						"description": "Este endpoint permitirá actualizar información del usuario, para poder ejecutar una actualización, es nesario que el usuario haya sido autenticado y obtener el Access Token para incluirlo en esta petición y en las siguientes peticiones\n\nComo se describe a continuación."
+					},
+					"response": []
+				},
+				{
+					"name": "User List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NTEzNjY1fQ.JhOa6ajsNqekuDwKA0PF3Jo4LVkf0xGT6NKqoY7divo",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Para listar los usuarios, requiere estar autenticado y pasar el access token como parámetro en las cabeceras de la solicitud.\n\nLa ejecución correcta del enpoint devolverá un objeto json con estas carácterísticas:\n\n``` json\n{\n    \"status\": \"200\",\n    \"data\": {\n        \"users\": [\n            {\n                \"name\": \"Carlos Pérez\",\n                \"username\": \"carlosp\",\n                \"phone\": \"1234567890\",\n                \"email\": \"carlos.perez@example.com\",\n                \"is_active\": true,\n                \"id\": 1,\n                \"update_at\": \"2024-10-20T23:15:15.643940\",\n                \"create_at\": \"2024-10-20T23:15:15.643940\"\n            },\n            {\n                \"name\": \"Ana Gómez\",\n                \"username\": \"anag\",\n                \"phone\": \"0987654321\",\n                \"email\": \"ana.gomez@example.com\",\n                \"is_active\": true,\n                \"id\": 2,\n                \"update_at\": \"2024-10-20T23:15:15.643940\",\n                \"create_at\": \"2024-10-20T23:15:15.643940\"\n            },\n            {\n                \"name\": \"Luis Martínez\",\n                \"username\": \"luism\",\n                \"phone\": \"1122334455\",\n                \"email\": \"luis.martinez@example.com\",\n                \"is_active\": true,\n                \"id\": 3,\n                \"update_at\": \"2024-10-20T23:15:15.643940\",\n                \"create_at\": \"2024-10-20T23:15:15.643940\"\n            },\n            {\n                \"name\": \"Juan Perez\",\n                \"username\": \"jpablo\",\n                \"phone\": \"999999999\",\n                \"email\": \"jpablopzs@gmail.com\",\n                \"is_active\": false,\n                \"id\": 4,\n                \"update_at\": \"2024-10-21T02:47:25.262598\",\n                \"create_at\": \"2024-10-21T02:47:25.262723\"\n            },\n            {\n                \"name\": \"Juan Perez\",\n                \"username\": \"jpablo2\",\n                \"phone\": \"999999999\",\n                \"email\": \"jpablopzs@demo.com\",\n                \"is_active\": true,\n                \"id\": 6,\n                \"update_at\": \"2024-10-21T03:32:02.955239\",\n                \"create_at\": \"2024-10-21T03:32:02.955263\"\n            }\n        ]\n    },\n    \"message\": \"Users List\"\n}\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "User read Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjY2NTM3fQ.pa4hoaD07e7z7ehbuFJoQvfqjGJC8jfZlEChQmbUmdQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"999999960\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Se crean los enpoint necesarios para poder gestionar la creación y actualización de un usuario dentro de la aplicación."
+		},
+		{
+			"name": "CRUD company",
+			"item": [
+				{
+					"name": "Create company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjY2NTM3fQ.pa4hoaD07e7z7ehbuFJoQvfqjGJC8jfZlEChQmbUmdQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"CONSORCIO\",\n  \"tax_id\": \"11111111-6\",\n  \"phone\": \"999999999\",\n  \"email\": \"consorcio@example.com\",\n  \"txt_address\": \"Las Condes\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update company",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"tax_id\": \"\",\n  \"phone\": \"\",\n  \"email\": \"\",\n  \"tax_address\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/companies/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"companies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/companies?skip=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"companies"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read company Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjY2NTM3fQ.pa4hoaD07e7z7ehbuFJoQvfqjGJC8jfZlEChQmbUmdQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/companies/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"companies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete company",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDg1MTM3fQ.FFw5okWdGttNoBVdBZITawGPo6KTyk11ACtmGrUpFGQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/companies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"companies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "CRUD category",
+					"item": [
+						{
+							"name": "Create category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjczOTA1fQ.T4OWHBjhGAArwYDI3eH7cTV3zm073euEFyWzTce-kTY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Zapatillas\",\n  \"description\": \"zapatillas running\",\n  \"company_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update category",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjczOTA1fQ.T4OWHBjhGAArwYDI3eH7cTV3zm073euEFyWzTce-kTY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"description\": \"Zapatillas para outdoor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/category/1?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"category",
+										"1"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List categorys",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjczOTA1fQ.T4OWHBjhGAArwYDI3eH7cTV3zm073euEFyWzTce-kTY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/category?company_id=1&skip=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"category"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										},
+										{
+											"key": "skip",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read category Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjczOTA1fQ.T4OWHBjhGAArwYDI3eH7cTV3zm073euEFyWzTce-kTY",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/category/1?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"category",
+										"1"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete category",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDg1MTM3fQ.FFw5okWdGttNoBVdBZITawGPo6KTyk11ACtmGrUpFGQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/category/?category_id=1&company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"category",
+										""
+									],
+									"query": [
+										{
+											"key": "category_id",
+											"value": "1"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CRUD product",
+					"item": [
+						{
+							"name": "Create product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjczOTA1fQ.T4OWHBjhGAArwYDI3eH7cTV3zm073euEFyWzTce-kTY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product_code\": \"0003\",\n  \"name\": \"Zapatilla adidas trex\",\n  \"description\": \"zapatillas para correr\",\n  \"current_price\": 30000,\n  \"stock_quantity\": 10,\n  \"company_id\": 1,\n  \"category_id\": 1\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update product",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5Mjc3NTQyfQ.7SOqWxPrmVlRKMbstm2o8HiFeoacyuBpcOKmS6cQUSI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Zapatillas adidas galaxy 6\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/product/5?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product",
+										"5"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List products",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5Mjc3NTQyfQ.7SOqWxPrmVlRKMbstm2o8HiFeoacyuBpcOKmS6cQUSI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/product?company_id=1&skip=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										},
+										{
+											"key": "skip",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read product Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5Mjc3NTQyfQ.7SOqWxPrmVlRKMbstm2o8HiFeoacyuBpcOKmS6cQUSI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/product/5?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product",
+										"5"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDg1MTM3fQ.FFw5okWdGttNoBVdBZITawGPo6KTyk11ACtmGrUpFGQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/product/?product_id=1&company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"product",
+										""
+									],
+									"query": [
+										{
+											"key": "product_id",
+											"value": "1"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CRUD supplier",
+			"item": [
+				{
+					"name": "Create supplier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"{",
+									"  \"name\": \"string\",",
+									"  \"contact_name\": \"string\",",
+									"  \"email\": \"string\",",
+									"  \"phone\": \"string\",",
+									"  \"address\": \"string\",",
+									"  \"company_id\": 0",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjgxNjU3fQ.SmfppfdeJ76WeXDyEGR0MFlOSMMpeWsQx5dqM4cI-Ps",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SODIMAC\",\n  \"tax_id\": \"11111111-1\",\n  \"email\": \"sodimac@example.com\",\n  \"phone\": \"999999999\",\n  \"txt_address\": \"Estación Central\",\n  \"company_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/supplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"supplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update supplier",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjgxNjU3fQ.SmfppfdeJ76WeXDyEGR0MFlOSMMpeWsQx5dqM4cI-Ps",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SODIMAC SPA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/supplier/7?company_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"supplier",
+								"7"
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List suppliers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjgxNjU3fQ.SmfppfdeJ76WeXDyEGR0MFlOSMMpeWsQx5dqM4cI-Ps",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/product?company_id=1&skip=0&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product"
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "1"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read supplier Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5MjgxNjU3fQ.SmfppfdeJ76WeXDyEGR0MFlOSMMpeWsQx5dqM4cI-Ps",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/product/7?company_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"product",
+								"7"
+							],
+							"query": [
+								{
+									"key": "company_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchase Order",
+			"item": [
+				{
+					"name": "CRUD purchase_order",
+					"item": [
+						{
+							"name": "Create purchase order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"{",
+											"  \"name\": \"string\",",
+											"  \"contact_name\": \"string\",",
+											"  \"email\": \"string\",",
+											"  \"phone\": \"string\",",
+											"  \"address\": \"string\",",
+											"  \"company_id\": 0",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order_code\": \"0000001\",\n  \"order_description\": \"orden de compra\",\n  \"invoice_number\": \"030303\",\n  \"order_date\": \"2024-10-21\",\n  \"delivery_date\": \"2024-10-21\",\n  \"company_id\": 1,\n  \"sumpplier_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update purchase order",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order_code\": \"0000003\",\n  \"order_description\": \"orden de compra nueva\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order/3?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order",
+										"3"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List purchase orders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order?company_id=1&skip=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										},
+										{
+											"key": "skip",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read purchase order Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order/3?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order",
+										"3"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete purchase order",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order/?purchase_order_id=3&company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order",
+										""
+									],
+									"query": [
+										{
+											"key": "purchase_order_id",
+											"value": "3"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CRUD purchase order detail",
+					"item": [
+						{
+							"name": "Create purchase order detail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"{",
+											"  \"name\": \"string\",",
+											"  \"contact_name\": \"string\",",
+											"  \"email\": \"string\",",
+											"  \"phone\": \"string\",",
+											"  \"address\": \"string\",",
+											"  \"company_id\": 0",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product_quantity\": 10,\n  \"unit_price\": 100,\n  \"total_price\": 1000,\n  \"is_deleted\": false,\n  \"company_id\": 1,\n  \"product_id\": 1,\n  \"purchase_order_id\": 4\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order_detail",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order_detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update purchase order detail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"product_quantity\": 20,\n  \"unit_price\": 12,\n  \"total_price\": 240,\n  \"is_deleted\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order_detail/?purchase_order_detail_id=3&purchase_order_id=4&company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order_detail",
+										""
+									],
+									"query": [
+										{
+											"key": "purchase_order_detail_id",
+											"value": "3"
+										},
+										{
+											"key": "purchase_order_id",
+											"value": "4"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List purchase orders detail",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order?purchase-order_id=4&company_id=1&skip=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order"
+									],
+									"query": [
+										{
+											"key": "purchase-order_id",
+											"value": "4"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										},
+										{
+											"key": "skip",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read purchase order  detail Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order_detail/3?company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order_detail",
+										"3"
+									],
+									"query": [
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete purchase order detail",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2IiwiZXhwIjoxNzI5NDkxMjM5fQ.ISI8UUaRJsjORs3rs9YpqeIUPMSphR-tmax2wFUZKZI",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/purchase_order_detail/?purchase_order_detail_id=3&company_id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"purchase_order_detail",
+										""
+									],
+									"query": [
+										{
+											"key": "purchase_order_detail_id",
+											"value": "3"
+										},
+										{
+											"key": "company_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

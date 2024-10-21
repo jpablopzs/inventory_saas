@@ -31,8 +31,7 @@ mysql> show tables;
 +----------------------------+
 ```
 
-### [Ver estructura SQL del modelo propuesto](docs/sql-refactor-estructure-parte3.sql)
-
+### [Ver estructura SQL del modelo propuesto](/docs/sql-refactor-estructure-parte3.sql)
 
 
 

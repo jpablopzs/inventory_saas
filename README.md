@@ -5,28 +5,33 @@ Este es un servicio de inventario construido con FastAPI. La aplicación usa Doc
 ### Estructura del Proyecto
 
 ```text
-.
-├── Dockerfile               # Archivo de configuración de Docker
-├── README.md                # Documentación del proyecto
-├── alembic                  # Carpeta con scripts de migración de Alembic
-├── alembic.ini              # Archivo de configuración de Alembic
-├── app
-│   ├── auth                 # Módulo de autenticación
-│   │   ├── controllers      # Lógica de controladores para autenticación
-│   │   ├── models           # Modelos de datos para autenticación
-│   │   ├── routes           # Rutas y endpoints para autenticación
-│   │   └── schemas          # Esquemas de validación para autenticación
-│   ├── core                 # Lógica central de la aplicación
-│   │   ├── database.py      # Conexión y gestión de base de datos
-│   │   └── exception_notification.py # Manejo de notificaciones de excepciones
-│   ├── inventory            # Módulo de inventario
-│   │   ├── controllers      # Lógica de controladores para el inventario
-│   │   ├── models           # Modelos de datos para el inventario
-│   │   ├── routes           # Rutas y endpoints para el inventario
-│   │   └── schemas          # Esquemas de validación para el inventario
-│   └── main.py              # Archivo principal de la aplicación FastAPI
-├── docker-compose.yml       # Configuración de Docker Compose
-└── requirements.txt         # Dependencias de Python
+├── Dockerfile             # Archivo para la construcción de la imagen Docker de la aplicación.
+├── README.md              # Documento con información general del proyecto.
+├── alembic                # Directorio de configuración para las migraciones de base de datos con Alembic.
+│   ├── README.md          # Instrucciones y detalles de uso de Alembic.
+│   └── versions           # Subdirectorio que contiene las migraciones generadas.
+├── alembic.ini            # Archivo de configuración principal de Alembic.
+├── app                    # Directorio principal de la aplicación FastAPI.
+│   ├── auth               # Módulo de autenticación.
+│   │   ├── controllers    # Lógica para controladores y manejo de autenticación.
+│   │   ├── models         # Modelos de la base de datos relacionados con la autenticación.
+│   │   ├── routes         # Rutas relacionadas con el sistema de autenticación.
+│   │   └── schemas        # Esquemas Pydantic para validación de datos en el módulo de autenticación.
+│   ├── core               # Módulo central de la app (Driver de conexión a base de datos y excepciones).
+│   ├── inventory          # Módulo de inventario.
+│   │   ├── controllers    # Lógica para controladores relacionados con inventario.
+│   │   ├── models         # Modelos de la base de datos para inventario.
+│   │   ├── routes         # Rutas relacionadas con el manejo de inventario.
+│   │   └── schemas        # Esquemas Pydantic para validación de datos en inventario.
+│   └── main.py            # Punto de entrada principal para iniciar la aplicación FastAPI.
+├── docker-compose.yml      # Configuración para orquestación de contenedores Docker.
+├── docs                   # Documentación adicional del proyecto.
+├── refactor_php            # Directorio con código PHP refactorizado (Etapa 3 prueba).
+│   ├── database.php       # Archivo PHP relacionado con la gestión de la base de datos.
+│   └── employee.php       # Archivo PHP para el manejo de empleados.
+├── requirements.txt        # Lista de dependencias y librerías Python necesarias para el proyecto.
+└── start.sh                # Script para iniciar la aplicación.
+
 ```
 ### Requisitos
 * Docker

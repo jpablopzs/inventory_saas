@@ -87,7 +87,7 @@ docker exec -it app_inventory_service sh
 ```
  y luego:
 
- ```
+```
 alembic upgrade head
 ```
 
@@ -102,3 +102,12 @@ De igual forma, será compartida la colección de Postman  para la ejecución de
 
 ## Seguridad
 La API usa autenticación basada en JWT. Asegúrate de que el JWT_SECRET en el archivo .env sea fuerte y único para tu aplicación.
+
+## Documentación de partes de la prueba:
+Para conocer los detalles  de las partes de la prueba técnica seguir los siguientes enlaces:
+
+## [Prueba Etapa 1: Diseño de Base de Datos](README-Etapa1.md)
+## [Prueba Etapa 2: Creación del Backend]()
+## [Prueba Etapa 3: Evaluación de Código](README-Etapa3.md)
+## [Prueba Etapa 4: Dockerización de un Servicio REST](README-Etapa4.md)
+## [Prueba Etapa 5: Despliegue en la Nube](README-Etapa5.md)

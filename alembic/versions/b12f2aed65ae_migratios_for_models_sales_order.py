@@ -60,7 +60,7 @@ def upgrade() -> None:
     op.create_table('sales_order_detail',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('company_id', sa.Integer(), nullable=False),
-    sa.Column('purchase_order_id', sa.Integer(), nullable=False),
+    sa.Column('sales_order_id', sa.Integer(), nullable=False),
     sa.Column('product_id', sa.Integer(), nullable=False),
     sa.Column('product_quantity', sa.Integer(), nullable=False),
     sa.Column('unit_price', sa.Numeric(), nullable=False),
@@ -70,12 +70,12 @@ def upgrade() -> None:
     sa.Column('is_deleted', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['company_id'], ['company.id'], name='fk_company_id'),
     sa.ForeignKeyConstraint(['product_id'], ['product.id'], name='fk_product_id'),
-    sa.ForeignKeyConstraint(['purchase_order_id'], ['sales_order.id'], name='fk_sales_order_id'),
+    sa.ForeignKeyConstraint(['sales_order_id'], ['sales_order.id'], name='fk_sales_order_id'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_sales_order_detail_company_id'), 'sales_order_detail', ['company_id'], unique=False)
     op.create_index(op.f('ix_sales_order_detail_product_id'), 'sales_order_detail', ['product_id'], unique=False)
-    op.create_index(op.f('ix_sales_order_detail_purchase_order_id'), 'sales_order_detail', ['purchase_order_id'], unique=False)
+    op.create_index(op.f('ix_sales_order_detail_purchase_order_id'), 'sales_order_detail', ['sales_order_id'], unique=False)
     # ### end Alembic commands ###
 
 

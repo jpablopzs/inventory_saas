@@ -28,22 +28,22 @@ class PurchaseOrder(Base):
     id = Column((Integer), primary_key=True)
     company_id = Column((Integer), ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)
     sumpplier_id = Column((Integer), ForeignKey("supplier.id", name='fk_supplier_id'), nullable=False, index=True)
-    order_code = Column(String(300), nullable=False)
+    order_code = Column(String(300), nullable=False, index=True)
     order_description = Column(String(300), nullable=True)
     invoice_number = Column(String(50), nullable=True)
-    order_date = Column(DateTime, nullable=True)
+    order_date = Column(DateTime, nullable=True, index=True)
     delivery_date = Column(DateTime, nullable=True)
     create_at = Column(DateTime, nullable=False, default=datetime.now)
     update_at = Column(DateTime, nullable=True, default=datetime.now)
     is_deleted = Column(Boolean, default=False)
 
 class PurchaseOrderDetail(Base):
-    __tablename__ = 'purchase_detail'
+    __tablename__ = 'purchase_order_detail'
   
     id = Column((Integer), primary_key=True)
     company_id = Column((Integer), ForeignKey("company.id", name='fk_company_id'), nullable=False, index=True)
     product_id = Column((Integer), ForeignKey("product.id", name='fk_product_id'), nullable=False, index=True)
-    sales_order_id = Column((Integer), ForeignKey("purchase_order.id", name='fk_purchase_order_id'), nullable=False, index=True)
+    purchase_order_id = Column((Integer), ForeignKey("purchase_order.id", name='fk_purchase_order_id'), nullable=False, index=True)
     product_quantity = Column((Integer), nullable=False)
     unit_price = Column(Numeric, nullable=False)
     total_price = Column(Numeric, nullable=False)

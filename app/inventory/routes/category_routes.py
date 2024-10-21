@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from app.core.database import get_session
-from app.auth.controllers.auth_check import get_current_user#, check_permissions
+from app.auth.controllers.auth_check import get_current_user
 from app.inventory.schemas.category_schema import CategoryCreate, CategoryUpdate, CategoryResponse
-from app.inventory.controllers.category_controller import create_category, update_category, delete_category, list_categories, read_category
+from app.inventory.controllers.category_controller import create_category, update_category, delete_category, get_categories, get_category
 
 
 router = APIRouter()
@@ -17,7 +17,7 @@ async def list_categories_route(
     db: AsyncSession = Depends(get_session),
     current_user: dict = Depends(get_current_user)
 ):
-    return await list_categories(db, company_id, skip=skip, limit=limit)
+    return await get_categories(db, company_id, skip=skip, limit=limit)
 
 @router.get("/{category_id}", response_model=CategoryResponse)
 async def read_category_route(
@@ -26,7 +26,7 @@ async def read_category_route(
     db: AsyncSession = Depends(get_session),
     current_user: dict = Depends(get_current_user)
 ):
-    return await read_category(db, category_id, company_id)
+    return await get_category(db, category_id, company_id)
 
 @router.post("/", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)
 async def create_category_route(
@@ -46,12 +46,10 @@ async def update_category_route(
 ):
     return await update_category(db, category_id, category_in, company_id)
 
-@router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_category_route(
-    category_id: int,
-    company_id: int,
-    db: AsyncSession = Depends(get_session),
-    current_user: dict = Depends(get_current_user)
-):
-    await delete_category(db, category_id, company_id)
+
+@router.delete("/")
+async def delete_category_route(category_id: int, company_id: int, db: AsyncSession = Depends(get_session), current_user: dict = Depends(get_current_user)):
+    success = await delete_category(db, category_id, company_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Category not found")
     return {"message": "Category deleted successfully"}

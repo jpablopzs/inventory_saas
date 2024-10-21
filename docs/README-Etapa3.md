@@ -228,5 +228,5 @@ El resultado final de la consulta devuelve un objeto JSON como este:
 
 Para conocer los cambios aplicados script revisar estos enlaces:
 
-### [Ver código PHP refactorizado](refactor_php/employee.php)
-### [Ver código PHP conexión a Base de datos](refactor_php/database.php)
+### [Ver código PHP refactorizado](/refactor_php/employee.php)
+### [Ver código PHP conexión a Base de datos](/refactor_php/database.php)
